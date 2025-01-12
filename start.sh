@@ -8,7 +8,7 @@ BACKEND_PID=$!
 
 # Navigate to the frontend directory and start React
 echo "Starting React frontend..."
-cd ../frontend
+cd
 npm install
 npm start &
 FRONTEND_PID=$!
