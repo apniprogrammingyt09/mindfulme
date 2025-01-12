@@ -6,10 +6,9 @@ cd backend  # Navigate to the backend directory
 uvicorn main:app --host 0.0.0.0 --port 8000 &
 BACKEND_PID=$!
 
-# Navigate to the root directory and start React
+# Navigate back to the root directory to start React
 echo "Starting React frontend..."
 cd ..  # Go back to the root directory (where package.json is located)
-npm install
 npm start &
 FRONTEND_PID=$!
 
