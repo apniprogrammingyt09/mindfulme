@@ -1,13 +1,13 @@
 {
-  "install": "cd frontend && npm install && cd ../backend && pip install -r requirements.txt",
+  "install": "npm install && cd backend && pip install -r requirements.txt",
   "start": "./start.sh",
   "watch": {
-    "ignore": ["frontend/node_modules", "*.pyc", "_pycache_"],
+    "ignore": ["node_modules", "*.pyc", "_pycache_"],
     "install": {
-      "include": ["frontend/package.json", "backend/requirements.txt"]
+      "include": ["package.json", "backend/requirements.txt"]
     },
     "restart": {
-      "include": ["start.sh", "frontend/src/*/.js", "backend/*/.py"]
+      "include": ["start.sh", "frontend/src/**/*.js", "backend/**/*.py"]
     },
     "throttle": 3000
   },
