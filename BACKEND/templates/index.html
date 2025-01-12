@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-Learning Recommendation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .emoji-group button {
+            font-size: 24px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .emoji-group button.selected {
+            border: 2px solid #007BFF;
+            border-radius: 8px;
+        }
+        .slider-value {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <script>
+        function selectEmoji(groupName, value) {
+            document.getElementsByName(groupName)[0].value = value;
+
+            // Deselect all buttons in the group
+            const buttons = document.querySelectorAll(`.emoji-group[data-group="${groupName}"] button`);
+            buttons.forEach(btn => btn.classList.remove('selected'));
+
+            // Highlight the selected button
+            const selectedButton = document.querySelector(`.emoji-group[data-group="${groupName}"] button[data-value="${value}"]`);
+            selectedButton.classList.add('selected');
+        }
+
+        function updateSliderValue(slider, displayId) {
+            document.getElementById(displayId).textContent = slider.value;
+        }
+    </script>
+</head>
+<body>
+
+<h1>Q-Learning Recommendation</h1>
+
+<form action="http://127.0.0.1:8000/recommend/" method="POST" id="recommendForm">
+    Hidden fields to store emoji values
+    <input type="hidden" name="mood" value="0">
+    <input type="hidden" name="energy" value="0">
+    <input type="hidden" name="sleep_quality" value="0">
+    Mood Selection
+    <div class="form-group">
+        <label for="mood">Mood:</label>
+        <div class="emoji-group" data-group="mood">
+            <button type="button" data-value="0" onclick="selectEmoji('mood', 0)">😞</button>
+            <button type="button" data-value="1" onclick="selectEmoji('mood', 1)">😕</button>
+            <button type="button" data-value="2" onclick="selectEmoji('mood', 2)">😐</button>
+            <button type="button" data-value="3" onclick="selectEmoji('mood', 3)">😊</button>
+            <button type="button" data-value="4" onclick="selectEmoji('mood', 4)">😁</button>
+        </div>
+    </div>
+
+    Energy Level
+    <div class="form-group">
+        <label for="energy">Energy Level:</label>
+        <div class="emoji-group" data-group="energy">
+            <button type="button" data-value="0" onclick="selectEmoji('energy', 0)">😴</button>
+            <button type="button" data-value="1" onclick="selectEmoji('energy', 1)">😌</button>
+            <button type="button" data-value="2" onclick="selectEmoji('energy', 2)">😐</button>
+            <button type="button" data-value="3" onclick="selectEmoji('energy', 3)">🙂</button>
+            <button type="button" data-value="4" onclick="selectEmoji('energy', 4)">💪</button>
+        </div>
+    </div>
+
+    Sleep Quality
+    <div class="form-group">
+        <label for="sleep_quality">Sleep Quality:</label>
+        <div class="emoji-group" data-group="sleep_quality">
+            <button type="button" data-value="0" onclick="selectEmoji('sleep_quality', 0)">😞</button>
+            <button type="button" data-value="1" onclick="selectEmoji('sleep_quality', 1)">😕</button>
+            <button type="button" data-value="2" onclick="selectEmoji('sleep_quality', 2)">😐</button>
+            <button type="button" data-value="3" onclick="selectEmoji('sleep_quality', 3)">😊</button>
+            <button type="button" data-value="4" onclick="selectEmoji('sleep_quality', 4)">😁</button>
+        </div>
+    </div>
+
+    Diet Level
+    <div class="form-group">
+        <label for="diet">Diet Level (0 to 5):</label>
+        <input type="range" name="diet" min="0" max="5" step="1" value="0" oninput="updateSliderValue(this, 'dietValue')">
+        <div id="dietValue" class="slider-value">0</div>
+    </div>
+
+    Exercise Duration
+    <div class="form-group">
+        <label for="exercise">Exercise Duration (minutes):</label>
+        <input type="range" name="exercise" min="0" max="180" step="1" value="0" oninput="updateSliderValue(this, 'exerciseValue')">
+        <div id="exerciseValue" class="slider-value">0</div>
+    </div>
+
+    Anxiety Level
+    <div class="form-group">
+        <label for="anxiety">Anxiety Level (0 to 7):</label>
+        <input type="range" name="anxiety" min="0" max="7" step="1" value="0" oninput="updateSliderValue(this, 'anxietyValue')">
+        <div id="anxietyValue" class="slider-value">0</div>
+    </div>
+
+    Stress Level
+    <div class="form-group">
+        <label for="stress">Stress Level (0 to 7):</label>
+        <input type="range" name="stress" min="0" max="7" step="1" value="0" oninput="updateSliderValue(this, 'stressValue')">
+        <div id="stressValue" class="slider-value">0</div>
+    </div>
+
+    Sleep Hours
+    <div class="form-group">
+        <label for="sleep_hours">Sleep Hours (0.0 to 12.5):</label>
+        <input type="range" name="sleep_hours" min="0" max="12.5" step="0.5" value="0" oninput="updateSliderValue(this, 'sleepHoursValue')">
+        <div id="sleepHoursValue" class="slider-value">0</div>
+    </div>
+
+    <button type="submit">Get Recommendation</button>
+</form>
+
+</body>
+</html>
